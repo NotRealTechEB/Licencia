@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cl.dgac.licencia.repository.LicenciaRepository;
 import cl.dgac.licencia.model.Licencia;
+import cl.dgac.licencia.repository.LicenciaRepository;
 
 @Service
 public class LicenciaService {
@@ -23,8 +23,8 @@ public class LicenciaService {
         return licenciaRepo.save(licencia);
     }
 
-    public String eliminarLicencias(int id){
-        licenciaRepo.deleteById(id);
+    public String eliminarLicencias(int idLicencia){
+        licenciaRepo.deleteById(idLicencia);
         return "La licencia ha sido eliminada";
     }
 }
