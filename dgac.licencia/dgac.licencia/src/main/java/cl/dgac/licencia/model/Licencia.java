@@ -1,7 +1,5 @@
 package cl.dgac.licencia.model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +23,7 @@ public class Licencia{
     private int idLicencia;
 
     @Column(name="fechaRegistro", nullable=false)
-    private LocalDateTime fechaReg;
+    private int fechaReg;
 
     @Column(name="fechaVencimiento", nullable=false)
     private int fechaVen;
