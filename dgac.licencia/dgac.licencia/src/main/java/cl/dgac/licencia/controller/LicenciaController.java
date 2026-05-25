@@ -30,11 +30,15 @@ public class LicenciaController {
         this.licenciaService = licenciaService;
     }
 
+    //Obtener todas las licencias
+
     @GetMapping
     public ResponseEntity<List<Licencia>> listarLicencias(){
         List<Licencia> lic = licenciaService.listarLicencias();
         return ResponseEntity.ok(lic);
     }
+
+    //Guardar nueva licencia
 
     @PostMapping
     public ResponseEntity<Licencia> guardarLicencias(@Valid @RequestBody CreateLicencia request){
@@ -42,11 +46,15 @@ public class LicenciaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(lic);
     }
 
+    //Actualizar datos de licencias
+
     @PutMapping
     public ResponseEntity<Licencia> actualizarLicencias(@Valid @RequestBody UpdateLicencia request){
         Licencia lic = licenciaService.actualizarLicencias(LicenciaMapper.toModel(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(lic);
     }
+
+    //Eliminar licencias
 
     @DeleteMapping
     public ResponseEntity<String> eliminarLicencias(@PathVariable int idLicencia){
