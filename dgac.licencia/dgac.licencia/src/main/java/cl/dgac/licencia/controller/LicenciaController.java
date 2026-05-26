@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.dgac.licencia.dto.CreateLicencia;
-import cl.dgac.licencia.dto.UpdateLicencia;
+import cl.dgac.licencia.dto.CreateLicenciaDTO;
+import cl.dgac.licencia.dto.LicenciaValidacionDTO;
+import cl.dgac.licencia.dto.UpdateLicenciaDTO;
 import cl.dgac.licencia.mapper.LicenciaMapper;
 import cl.dgac.licencia.model.Licencia;
 import cl.dgac.licencia.service.LicenciaService;
@@ -38,10 +40,18 @@ public class LicenciaController {
         return ResponseEntity.ok(lic);
     }
 
+    //Obtener estado de licencia
+
+    @GetMapping("/validar")
+    public ResponseEntity<LicenciaValidacionDTO> validarEstadoLicencia(@RequestParam("idPiloto") int idPiloto){
+        LicenciaValidacionDTO validar = licenciaService.validarLicencia(idPiloto);
+        return ResponseEntity.ok(validar);
+    }
+
     //Guardar nueva licencia
 
     @PostMapping
-    public ResponseEntity<Licencia> guardarLicencias(@Valid @RequestBody CreateLicencia request){
+    public ResponseEntity<Licencia> guardarLicencias(@Valid @RequestBody CreateLicenciaDTO request){
         Licencia lic = licenciaService.guardarLicencias(LicenciaMapper.toModel(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(lic);
     }
@@ -49,7 +59,7 @@ public class LicenciaController {
     //Actualizar datos de licencias
 
     @PutMapping
-    public ResponseEntity<Licencia> actualizarLicencias(@Valid @RequestBody UpdateLicencia request){
+    public ResponseEntity<Licencia> actualizarLicencias(@Valid @RequestBody UpdateLicenciaDTO request){
         Licencia lic = licenciaService.actualizarLicencias(LicenciaMapper.toModel(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(lic);
     }
@@ -61,4 +71,6 @@ public class LicenciaController {
         licenciaService.eliminarLicencias(idLicencia);
         return ResponseEntity.noContent().build();
     }
+
+    
 }
