@@ -23,7 +23,7 @@ import cl.dgac.licencia.service.LicenciaService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/dgac/licencia")
+@RequestMapping("/api/v1/dgac/licencia")
 public class LicenciaController {
 
     private final LicenciaService licenciaService;
