@@ -46,16 +46,16 @@ public class LicenciaService {
     public LicenciaValidacionDTO validarLicencia(int idPiloto){
         Licencia licencia = licenciaRepo.findByIdPiloto(idPiloto).orElse(null);
         if(licencia == null){
-            return new LicenciaValidacionDTO(idPiloto, false, "Piloto no tiene licencia registrada.");
+            return new LicenciaValidacionDTO(null, false, null);
         }
 
         boolean estVigente = licencia.getFechaVen().isAfter(LocalDate.now());
         boolean estActiva = "ACTIVA".equalsIgnoreCase(licencia.getEstVigencia());
 
         if(estActiva && estVigente){
-            return new LicenciaValidacionDTO(idPiloto, true, "Licencia VIGENTE");
+            return new LicenciaValidacionDTO(null, estActiva, null);
         }else{
-            return new LicenciaValidacionDTO(idPiloto, false, "Licencia VENCIDA");
+            return new LicenciaValidacionDTO(null, estActiva, null);
         }
     }
 }

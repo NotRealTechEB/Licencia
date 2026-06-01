@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LicenciaValidacionDTO {
-    private int idPiloto;
+    private String rutPiloto;
     private boolean estValidacion;
     private String anotacion;
 }

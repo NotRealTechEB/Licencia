@@ -24,8 +24,8 @@ public class Licencia{
     @Column(name="idLicencia")
     private int idLicencia;
 
-    @Column(name="idPiloto", nullable=false)
-    private int idPiloto;
+    @Column(name="rutPiloto", nullable=false, length=12)
+    private String rutPiloto;
 
     @Column(name="fechaVencimiento", nullable=false)
     private LocalDate fechaVen;
