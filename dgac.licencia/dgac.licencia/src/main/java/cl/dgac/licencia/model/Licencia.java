@@ -30,6 +30,6 @@ public class Licencia{
     @Column(name="fechaVencimiento", nullable=false)
     private LocalDate fechaVen;
 
-    @Column(name="estadoVigencia", nullable=false, length=20)
+    @Column(name="estadoVigencia", length=10)
     private String estVigencia;
 }

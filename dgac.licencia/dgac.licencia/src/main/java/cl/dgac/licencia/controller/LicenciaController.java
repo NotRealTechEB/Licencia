@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import cl.dgac.licencia.dto.CreateLicenciaDTO;
 import cl.dgac.licencia.dto.LicenciaValidacionDTO;
 import cl.dgac.licencia.dto.UpdateLicenciaDTO;
-import cl.dgac.licencia.mapper.LicenciaMapper;
 import cl.dgac.licencia.model.Licencia;
 import cl.dgac.licencia.service.LicenciaService;
 import jakarta.validation.Valid;
@@ -32,6 +31,8 @@ public class LicenciaController {
         this.licenciaService = licenciaService;
     }
 
+    //-------------------------------Metodos de administracion-------------------------------//
+
     //Obtener todas las licencias
 
     @GetMapping
@@ -40,37 +41,38 @@ public class LicenciaController {
         return ResponseEntity.ok(lic);
     }
 
-    //Obtener estado de licencia
-
-    @GetMapping("/validar")
-    public ResponseEntity<LicenciaValidacionDTO> validarEstadoLicencia(@RequestParam("idPiloto") int idPiloto){
-        LicenciaValidacionDTO validar = licenciaService.validarLicencia(idPiloto);
-        return ResponseEntity.ok(validar);
-    }
-
-    //Guardar nueva licencia
+    //Guardar nueva licencias
 
     @PostMapping
-    public ResponseEntity<Licencia> guardarLicencias(@Valid @RequestBody CreateLicenciaDTO request){
-        Licencia lic = licenciaService.guardarLicencias(LicenciaMapper.toModel(request));
+    public ResponseEntity<CreateLicenciaDTO> guardarLicencia(@Valid @RequestBody CreateLicenciaDTO request){
+        CreateLicenciaDTO lic = licenciaService.guardarLicencia(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(lic);
     }
 
     //Actualizar datos de licencias
 
-    @PutMapping
-    public ResponseEntity<Licencia> actualizarLicencias(@Valid @RequestBody UpdateLicenciaDTO request){
-        Licencia lic = licenciaService.actualizarLicencias(LicenciaMapper.toModel(request));
-        return ResponseEntity.status(HttpStatus.CREATED).body(lic);
+    @PutMapping("/{idLicencia}")
+    public ResponseEntity<UpdateLicenciaDTO> actualizarLicencia(@PathVariable("idLicencia") int idLicencia, @Valid @RequestBody UpdateLicenciaDTO request){
+        UpdateLicenciaDTO lic = licenciaService.actualizarLicencia(idLicencia, request);
+        return ResponseEntity.status(HttpStatus.OK).body(lic);
     }
 
     //Eliminar licencias
 
-    @DeleteMapping
-    public ResponseEntity<String> eliminarLicencias(@PathVariable int idLicencia){
+    @DeleteMapping("/{idLicencia}")
+    public ResponseEntity<String> eliminarLicencias(@PathVariable("idLicencia") int idLicencia){
         licenciaService.eliminarLicencias(idLicencia);
         return ResponseEntity.noContent().build();
     }
 
-    
+
+    //-------------------------------Metodos HU - Piloto-------------------------------//
+
+    //Obtener estado de licencia
+
+    @GetMapping("/validar")
+    public ResponseEntity<LicenciaValidacionDTO> validarEstadoLicencia(@RequestParam("rut") String rutPiloto){
+        LicenciaValidacionDTO validar = licenciaService.validarLicencia(rutPiloto);
+        return ResponseEntity.ok(validar);
+    }
 }
