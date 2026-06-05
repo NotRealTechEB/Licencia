@@ -1,6 +1,7 @@
 package cl.dgac.licencia.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,12 +83,19 @@ public class LicenciaService {
         }
 
         boolean estVigente = licencia.getFechaVen().isAfter(LocalDate.now());
+        long diasParaVencer = ChronoUnit.DAYS.between(LocalDate.now(), licencia.getFechaVen());
+        boolean estPorVencer = diasParaVencer <= 30 && diasParaVencer >= 0;
         boolean estActiva = "ACTIVA".equalsIgnoreCase(licencia.getEstVigencia());
+        
 
         if(estActiva && estVigente){
             return new LicenciaValidacionDTO(rutPiloto, estActiva, "El piloto está habilitado.");
+        }
+        else if(estActiva && estPorVencer){
+            return new LicenciaValidacionDTO(rutPiloto, estActiva, "El piloto está habilitado. Tiene " + diasParaVencer + " días para renovar su licencia.");
+            
         }else{
-            return new LicenciaValidacionDTO(rutPiloto, estActiva, "El piloto no está habilitado.");
+            return new LicenciaValidacionDTO(rutPiloto, false, "El piloto no está habilitado. ");
         }
     }
 }
