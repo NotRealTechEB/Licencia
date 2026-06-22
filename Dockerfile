@@ -1,14 +1,13 @@
-# Etapa 1: build con Maven Wrapper
-FROM eclipse-temurin:21-jdk AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
+COPY pom.xml ./
+RUN mvn dependency:go-offline -B
 
 COPY src ./src
-RUN ./mvnw clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B
 
-# Etapa 2: runtime liviano (solo JRE)
+
 FROM eclipse-temurin:21-jre AS runtime
 WORKDIR /app
 
@@ -16,5 +15,5 @@ COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-# Railway inyecta la variable PORT; si no existe, cae a 8080
+# Railway/Render inyectan la variable PORT; si no existe, usa 8080
 ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT:-8080}"]
