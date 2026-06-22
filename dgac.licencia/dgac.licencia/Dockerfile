@@ -1,8 +1,8 @@
 FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
+COPY dgac.licencia/mvnw dgac.licencia/pom.xml ./
+COPY dgac.licencia/src ./src
 RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
 
 COPY src ./src
